@@ -1,0 +1,55 @@
+.detail-page .detail-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.2fr);
+    gap: 2rem;
+    margin-top: 1.5rem;
+    align-items: flex-start;
+}
+
+.detail-image-wrapper {
+    background: white;
+    border-radius: 8px;
+    padding: 1rem;
+    border: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.detail-image-wrapper img {
+    max-width: 100%;
+    max-height: 420px;
+    object-fit: contain;
+}
+
+.detail-info {
+    background: white;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    padding: 1.25rem;
+}
+
+.detail-info .price {
+    margin-top: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.detail-info .discounted-price {
+    margin-top: 0.25rem;
+    color: #10b981;
+    font-weight: 600;
+}
+
+.detail-info p {
+    margin: 0.25rem 0;
+}
+
+.detail-info .description {
+    margin-top: 0.75rem;
+}
+
+.back-link {
+    display: inline-block;
+    margin-top: 1rem;
+}
