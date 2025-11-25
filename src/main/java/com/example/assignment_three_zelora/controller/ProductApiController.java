@@ -13,7 +13,7 @@ import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
-@RequestMapping("/api/products")   // <-- base path
+@RequestMapping("/api/products")
 public class ProductApiController {
 
     private final ProductService productService;
