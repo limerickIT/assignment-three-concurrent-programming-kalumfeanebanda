@@ -3,6 +3,8 @@ import { useParams, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import "./ProductDetailPage.css";
 
+
+
 const API_BASE = "http://localhost:8080/api";
 
 function ProductDetailPage() {
@@ -14,9 +16,12 @@ function ProductDetailPage() {
     const [errorKey, setErrorKey] = useState(null);
     const [activeIndex, setActiveIndex] = useState(0);
 
+    const [inWishlist, setInWishlist] = useState(false);
+    const [wishlistLoading, setWishlistLoading] = useState(false);
+
     useEffect(() => {
         setLoading(true);
-        setErrorKey(null);
+        setErrorKey(null);   // ✅ use the right setter
 
         fetch(`${API_BASE}/products/${id}/detail`)
             .then((res) => {
@@ -26,14 +31,58 @@ function ProductDetailPage() {
             .then((data) => {
                 setProduct(data);
                 setActiveIndex(0);
-                setLoading(false);
             })
             .catch((err) => {
-                console.error("Error loading product detail", err);
-                setErrorKey("productPage.status.error");
-                setLoading(false);
+                console.error("Failed to load product detail:", err);
+
+                setErrorKey("productPage.status.failedToLoad");
+
+            })
+            .finally(() => setLoading(false));
+    }, [id]);
+
+    useEffect(() => {
+        const productId = Number(id);
+        if (!productId) return;
+
+        fetch(`${API_BASE}/wishlist`)
+            .then((res) => {
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                return res.json();
+            })
+            .then((wishlistItems) => {
+                const found =
+                    Array.isArray(wishlistItems) &&
+                    wishlistItems.some((item) => item.productId === productId);
+
+                setInWishlist(found);
+            })
+            .catch((err) => {
+                console.error("Failed to check wishlist:", err);
             });
     }, [id]);
+
+    const handleAddToWishlist = () => {
+        if (!product || inWishlist) return;
+
+        setWishlistLoading(true);
+
+        fetch(`${API_BASE}/wishlist/${product.productId}`, {
+            method: "POST",
+        })
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error(`HTTP ${res.status}`);
+                }
+                setInWishlist(true);
+            })
+            .catch((err) => {
+                console.error("Failed to add to wishlist", err);
+                alert("Failed to add to wishlist");
+            })
+            .finally(() => setWishlistLoading(false));
+    };
+
 
     if (loading) {
         return (
@@ -102,7 +151,7 @@ function ProductDetailPage() {
             </Link>
 
             <div className="detail-layout">
-                {/* LEFT: Image + carousel */}
+
                 <div>
                     <div className="detail-image-wrapper">
                         <img
@@ -141,7 +190,7 @@ function ProductDetailPage() {
                     )}
                 </div>
 
-                {/* RIGHT: Details */}
+
                 <div className="detail-info">
                     <h2>{product.productName}</h2>
 
@@ -265,7 +314,7 @@ function ProductDetailPage() {
                             </h5>
                             <p>
                                 <strong>{product.supplierName}</strong>
-                                <br />
+                                <br/>
                                 <a
                                     href={product.supplierWebsite}
                                     target="_blank"
@@ -279,6 +328,22 @@ function ProductDetailPage() {
                             )}
                         </>
                     )}
+
+                    <div style={{marginTop: "1rem"}}>
+                        <button
+                            onClick={handleAddToWishlist}
+                            disabled={wishlistLoading || inWishlist}
+                            style={{
+                                padding: "0.5rem 1rem",
+                                fontWeight: "bold",
+                                cursor: wishlistLoading || inWishlist ? "default" : "pointer",
+                                opacity: wishlistLoading || inWishlist ? 0.7 : 1,
+                            }}
+                        >
+                            {inWishlist ? "In Wishlist" : "Add to Wishlist"}
+                        </button>
+                    </div>
+
                 </div>
             </div>
         </div>
