@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./SearchPage.css";
+import {useTranslation} from "react-i18next";
 
 function SearchPage() {
+    const { t, i18n } = useTranslation();
+
     const [name, setName] = useState("");
     const [keyword, setKeyword] = useState("");
     const [categoryId, setCategoryId] = useState("");
@@ -63,8 +66,13 @@ function SearchPage() {
     };
 
     return (
-        <div style={{ padding: "1.5rem", fontFamily: "sans-serif" }}>
-            <h1>Zelora – Product Search</h1>
+        <div style={{padding: "1.5rem", fontFamily: "sans-serif"}}>
+            <h1>{t("searchPage.title")}</h1>
+            <div style={{marginBottom: "1rem"}}>
+                <button onClick={() => i18n.changeLanguage("en-IE")}>EN</button>
+                <button onClick={() => i18n.changeLanguage("fr-FR")}>FR</button>
+                <button onClick={() => i18n.changeLanguage("es-ES")}>ES</button>
+            </div>
 
 
             <form
@@ -78,34 +86,34 @@ function SearchPage() {
                 }}
             >
                 <div>
-                    <label>Product Name</label>
+                    <label>{t("searchPage.labels.productName")}</label>
                     <input
                         type="text"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        placeholder="e.g. T-Shirt"
-                        style={{ width: "100%" }}
+                        placeholder={t("searchPage.placeholders.productNameExample")}
+                        style={{width: "100%"}}
                     />
                 </div>
 
                 <div>
-                    <label>Keyword</label>
+                    <label>{t("searchPage.labels.keyword")}</label>
                     <input
                         type="text"
                         value={keyword}
                         onChange={(e) => setKeyword(e.target.value)}
-                        placeholder="description / material / brand"
-                        style={{ width: "100%" }}
+                        placeholder={t("searchPage.placeholders.keyword")}
+                        style={{width: "100%"}}
                     />
                 </div>
 
                 <div>
-                    <label>Category</label>
+                    <label>{t("searchPage.labels.category")}</label>
                     <select
                         value={categoryId}
                         onChange={(e) => setCategoryId(e.target.value)}
                     >
-                        <option value="">All categories</option>
+                        <option value="">{t("searchPage.labels.category")}</option>
                         {categories.map((c) => (
                             <option key={c.categoryId} value={c.categoryId}>
                                 {c.categoryName}
@@ -115,47 +123,49 @@ function SearchPage() {
                 </div>
 
                 <div>
-                    <label>Min Price</label>
+                    <label>{t("searchPage.labels.minPrice")}</label>
                     <input
                         type="number"
                         step="0.01"
                         value={minPrice}
                         onChange={(e) => setMinPrice(e.target.value)}
-                        style={{ width: "100%" }}
+                        style={{width: "100%"}}
                     />
                 </div>
 
                 <div>
-                    <label>Max Price</label>
+                    <label>{t("searchPage.labels.maxPrice")}</label>
                     <input
                         type="number"
                         step="0.01"
                         value={maxPrice}
                         onChange={(e) => setMaxPrice(e.target.value)}
-                        style={{ width: "100%" }}
+                        style={{width: "100%"}}
                     />
                 </div>
 
                 <div>
-                    <label>Min Rating</label>
+                    <label>{t("searchPage.labels.minRating")}</label>
                     <input
                         type="number"
                         min="1"
                         max="5"
                         value={minRating}
                         onChange={(e) => setMinRating(e.target.value)}
-                        style={{ width: "100%" }}
+                        style={{width: "100%"}}
                     />
                 </div>
 
-                <div style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
+                <div style={{display: "flex", gap: "0.5rem", alignItems: "center"}}>
                     <input
                         id="recent"
                         type="checkbox"
                         checked={recent}
                         onChange={(e) => setRecent(e.target.checked)}
                     />
-                    <label htmlFor="recent">Recently Added (last 30 days)</label>
+                    <label htmlFor="recent">
+                        {t("searchPage.labels.recent")}
+                    </label>
                 </div>
 
                 <button
@@ -166,17 +176,17 @@ function SearchPage() {
                         fontWeight: "bold",
                     }}
                 >
-                    Search
+                    {t("searchPage.button.search")}
                 </button>
             </form>
 
+            {loading && <p>{t("searchPage.status.searching")}</p>}
+            {error && <p style={{color: "red"}}>{error}</p>}
 
-            {loading && <p>Searching...</p>}
-            {error && <p style={{ color: "red" }}>{error}</p>}
-
-
-            <h2>Results</h2>
-            {products.length === 0 && !loading && <p>No products found yet.</p>}
+            <h2>{t("searchPage.results.heading")}</h2>
+            {products.length === 0 && !loading && (
+                <p>{t("searchPage.results.empty")}</p>
+            )}
 
             {products.length > 0 && (
                 <table
@@ -189,35 +199,32 @@ function SearchPage() {
                     <thead>
                     <tr>
                         <th style={{borderBottom: "1px solid #ccc", textAlign: "left"}}>
-                            ID
+                            {t("searchPage.table.id")}
                         </th>
                         <th style={{borderBottom: "1px solid #ccc", textAlign: "left"}}>
-                            Image
-                        </th>
-
-                        <th style={{borderBottom: "1px solid #ccc", textAlign: "left"}}>
-                            Name
+                            {t("searchPage.table.image")}
                         </th>
                         <th style={{borderBottom: "1px solid #ccc", textAlign: "left"}}>
-                            Category
+                            {t("searchPage.table.name")}
                         </th>
                         <th style={{borderBottom: "1px solid #ccc", textAlign: "left"}}>
-                            Price
+                            {t("searchPage.table.category")}
                         </th>
                         <th style={{borderBottom: "1px solid #ccc", textAlign: "left"}}>
-                            Discounted
+                            {t("searchPage.table.price")}
                         </th>
                         <th style={{borderBottom: "1px solid #ccc", textAlign: "left"}}>
-                            Rating
+                            {t("searchPage.table.discounted")}
                         </th>
                         <th style={{borderBottom: "1px solid #ccc", textAlign: "left"}}>
-                            Details
+                            {t("searchPage.table.rating")}
                         </th>
                         <th style={{borderBottom: "1px solid #ccc", textAlign: "left"}}>
-                            Actions
+                            {t("searchPage.table.details")}
                         </th>
-
-
+                        <th style={{borderBottom: "1px solid #ccc", textAlign: "left"}}>
+                            {t("searchPage.table.actions")}
+                        </th>
                     </tr>
                     </thead>
                     <tbody>
@@ -234,7 +241,6 @@ function SearchPage() {
                                     }}
                                 />
                             </td>
-
                             <td style={{borderBottom: "1px solid #eee"}}>{p.productName}</td>
                             <td style={{borderBottom: "1px solid #eee"}}>
                                 {p.categoryName || "-"}
@@ -254,9 +260,11 @@ function SearchPage() {
                                 {p.sustainabilityRating ?? "-"}
                             </td>
                             <td>
-                                <Link to={`/products/${p.productId}`}
-                                      className="btn btn-sm btn-primary">
-                                    View
+                                <Link
+                                    to={`/products/${p.productId}`}
+                                    className="btn btn-sm btn-primary"
+                                >
+                                    {t("searchPage.table.view")}
                                 </Link>
                             </td>
                         </tr>

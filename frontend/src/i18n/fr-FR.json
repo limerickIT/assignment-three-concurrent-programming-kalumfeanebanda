@@ -1,0 +1,73 @@
+{
+  "searchPage": {
+    "title": "Zelora – Recherche de produits",
+    "labels": {
+      "productName": "Nom du produit",
+      "keyword": "Mot-clé",
+      "category": "Catégorie",
+      "minPrice": "Prix min",
+      "maxPrice": "Prix max",
+      "minRating": "Note min",
+      "recent": "Ajoutés récemment (30 derniers jours)"
+    },
+    "placeholders": {
+      "productNameExample": "ex : T-shirt",
+      "keyword": "description / matériau / marque"
+    },
+    "button": {
+      "search": "Rechercher"
+    },
+    "status": {
+      "searching": "Recherche en cours...",
+      "error": "Une erreur s'est produite lors de la recherche."
+    },
+    "results": {
+      "heading": "Résultats",
+      "empty": "Aucun produit trouvé pour l'instant."
+    },
+    "table": {
+      "id": "ID",
+      "image": "Image",
+      "name": "Nom",
+      "category": "Catégorie",
+      "price": "Prix",
+      "discounted": "Prix réduit",
+      "rating": "Note",
+      "details": "Détails",
+      "actions": "Actions",
+      "view": "Voir"
+    }
+  },
+
+
+  "productPage": {
+    "status": {
+      "loading": "Chargement du produit...",
+      "error": "Impossible de charger les détails du produit.",
+      "notFound": "Produit introuvable."
+    },
+    "actions": {
+      "backToSearch": "← Retour à la recherche",
+      "visitWebsite": "Visiter le site web"
+    },
+    "headings": {
+      "details": "Détails",
+      "customerReviews": "Avis des clients",
+      "aboutSupplier": "À propos du fournisseur"
+    },
+    "labels": {
+      "averageRating": "Note moyenne :",
+      "category": "Catégorie :",
+      "supplier": "Fournisseur :",
+      "size": "Taille :",
+      "colour": "Couleur :",
+      "material": "Matériau :",
+      "sustainabilityRating": "Indice de durabilité :",
+      "releaseDate": "Date de sortie :",
+      "manufacturer": "Fabricant :",
+      "outOfFive": "/ 5"
+    }
+  }
+
+
+}
