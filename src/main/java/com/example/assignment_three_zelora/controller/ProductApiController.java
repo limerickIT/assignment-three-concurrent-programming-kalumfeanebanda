@@ -5,6 +5,8 @@ import com.example.assignment_three_zelora.model.service.ProductService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
+import com.example.assignment_three_zelora.model.dto.ProductDetailDto;
+
 
 
 import com.example.assignment_three_zelora.model.dto.ProductSummaryDto;
@@ -21,6 +23,7 @@ public class ProductApiController {
     public ProductApiController(ProductService productService) {
         this.productService = productService;
     }
+
 
     @GetMapping("/search")
     public List<ProductSummaryDto> searchProducts(
@@ -48,13 +51,22 @@ public class ProductApiController {
     }
 
 
-    // GET http://localhost:8080/api/products/1
-    @GetMapping("/{id:\\d+}")
+    @GetMapping("/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable Integer id) {
         Product product = productService.getProductById(id);
         if (product == null) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(product);
+    }
+
+
+    @GetMapping("/{id}/detail")
+    public ResponseEntity<ProductDetailDto> getProductDetail(@PathVariable Integer id) {
+        ProductDetailDto dto = productService.getProductDetailById(id);
+        if (dto == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(dto);
     }
 }

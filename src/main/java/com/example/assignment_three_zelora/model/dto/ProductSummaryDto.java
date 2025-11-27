@@ -3,8 +3,7 @@ package com.example.assignment_three_zelora.model.dto;
 
 import java.math.BigDecimal;
 import java.util.Date;
-
-
+import java.util.List;
 
 
 public class ProductSummaryDto {
@@ -28,6 +27,8 @@ public class ProductSummaryDto {
     private String categoryName;
     private Integer supplierId;
     private String supplierName;
+
+
 
     public ProductSummaryDto(Integer productId,
                              String productName,
@@ -126,4 +127,5 @@ public class ProductSummaryDto {
         public String getSupplierName() {
             return supplierName;
         }
-    }
+
+}
