@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import ProductCard from "../components/ProductCard.jsx";
 import "./SearchPage.css";
 
 function SearchPage() {
@@ -67,7 +66,7 @@ function SearchPage() {
         <div style={{ padding: "1.5rem", fontFamily: "sans-serif" }}>
             <h1>Zelora – Product Search</h1>
 
-            {/* ---- SEARCH FORM ---- */}
+
             <form
                 onSubmit={handleSearch}
                 style={{
@@ -171,11 +170,11 @@ function SearchPage() {
                 </button>
             </form>
 
-            {/* ---- STATUS ---- */}
+
             {loading && <p>Searching...</p>}
             {error && <p style={{ color: "red" }}>{error}</p>}
 
-            {/* ---- RESULTS TABLE ---- */}
+
             <h2>Results</h2>
             {products.length === 0 && !loading && <p>No products found yet.</p>}
 
@@ -189,41 +188,61 @@ function SearchPage() {
                 >
                     <thead>
                     <tr>
-                        <th style={{ borderBottom: "1px solid #ccc", textAlign: "left" }}>
+                        <th style={{borderBottom: "1px solid #ccc", textAlign: "left"}}>
                             ID
                         </th>
-                        <th style={{ borderBottom: "1px solid #ccc", textAlign: "left" }}>
+                        <th style={{borderBottom: "1px solid #ccc", textAlign: "left"}}>
+                            Image
+                        </th>
+
+                        <th style={{borderBottom: "1px solid #ccc", textAlign: "left"}}>
                             Name
                         </th>
-                        <th style={{ borderBottom: "1px solid #ccc", textAlign: "left" }}>
+                        <th style={{borderBottom: "1px solid #ccc", textAlign: "left"}}>
                             Category
                         </th>
-                        <th style={{ borderBottom: "1px solid #ccc", textAlign: "left" }}>
+                        <th style={{borderBottom: "1px solid #ccc", textAlign: "left"}}>
                             Price
                         </th>
-                        <th style={{ borderBottom: "1px solid #ccc", textAlign: "left" }}>
+                        <th style={{borderBottom: "1px solid #ccc", textAlign: "left"}}>
                             Discounted
                         </th>
-                        <th style={{ borderBottom: "1px solid #ccc", textAlign: "left" }}>
+                        <th style={{borderBottom: "1px solid #ccc", textAlign: "left"}}>
                             Rating
                         </th>
-                        <th style={{ borderBottom: "1px solid #ccc", textAlign: "left" }}>
+                        <th style={{borderBottom: "1px solid #ccc", textAlign: "left"}}>
                             Details
                         </th>
+                        <th style={{borderBottom: "1px solid #ccc", textAlign: "left"}}>
+                            Actions
+                        </th>
+
+
                     </tr>
                     </thead>
                     <tbody>
                     {products.map((p) => (
                         <tr key={p.productId}>
-                            <td style={{ borderBottom: "1px solid #eee" }}>{p.productId}</td>
-                            <td style={{ borderBottom: "1px solid #eee" }}>{p.productName}</td>
-                            <td style={{ borderBottom: "1px solid #eee" }}>
+                            <td style={{borderBottom: "1px solid #eee"}}>{p.productId}</td>
+                            <td style={{borderBottom: "1px solid #eee"}}>
+                                <img
+                                    src={`/images/products/thumb/${p.productId}_1.png`}
+                                    alt={p.productName}
+                                    style={{width: "60px", height: "60px", objectFit: "cover", borderRadius: "6px"}}
+                                    onError={(e) => {
+                                        e.target.src = "/images/products/thumb/no-image.png";
+                                    }}
+                                />
+                            </td>
+
+                            <td style={{borderBottom: "1px solid #eee"}}>{p.productName}</td>
+                            <td style={{borderBottom: "1px solid #eee"}}>
                                 {p.categoryName || "-"}
                             </td>
-                            <td style={{ borderBottom: "1px solid #eee" }}>
+                            <td style={{borderBottom: "1px solid #eee"}}>
                                 ${p.price?.toFixed ? p.price.toFixed(2) : p.price}
                             </td>
-                            <td style={{ borderBottom: "1px solid #eee" }}>
+                            <td style={{borderBottom: "1px solid #eee"}}>
                                 {p.discountedPrice != null
                                     ? `$${p.discountedPrice?.toFixed
                                         ? p.discountedPrice.toFixed(2)
@@ -231,11 +250,14 @@ function SearchPage() {
                                     }`
                                     : "-"}
                             </td>
-                            <td style={{ borderBottom: "1px solid #eee" }}>
+                            <td style={{borderBottom: "1px solid #eee"}}>
                                 {p.sustainabilityRating ?? "-"}
                             </td>
-                            <td style={{ borderBottom: "1px solid #eee" }}>
-                                <Link to={`/products/${p.productId}`}>View</Link>
+                            <td>
+                                <Link to={`/products/${p.productId}`}
+                                      className="btn btn-sm btn-primary">
+                                    View
+                                </Link>
                             </td>
                         </tr>
                     ))}
