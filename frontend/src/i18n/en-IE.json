@@ -1,0 +1,72 @@
+{
+  "searchPage": {
+    "title": "Zelora – Product Search",
+    "labels": {
+      "productName": "Product Name",
+      "keyword": "Keyword",
+      "category": "Category",
+      "minPrice": "Min Price",
+      "maxPrice": "Max Price",
+      "minRating": "Min Rating",
+      "recent": "Recently Added (last 30 days)"
+    },
+    "placeholders": {
+      "productNameExample": "e.g. T-Shirt",
+      "keyword": "description / material / brand"
+    },
+    "button": {
+      "search": "Search"
+    },
+    "status": {
+      "searching": "Searching...",
+      "error": "Something went wrong while searching."
+    },
+    "results": {
+      "heading": "Results",
+      "empty": "No products found yet."
+    },
+    "table": {
+      "id": "ID",
+      "image": "Image",
+      "name": "Name",
+      "category": "Category",
+      "price": "Price",
+      "discounted": "Discounted",
+      "rating": "Rating",
+      "details": "Details",
+      "actions": "Actions",
+      "view": "View"
+    }
+  },
+
+
+
+  "productPage": {
+    "status": {
+      "loading": "Loading product...",
+      "error": "Could not load product details.",
+      "notFound": "Product not found."
+    },
+    "actions": {
+      "backToSearch": "← Back to search",
+      "visitWebsite": "Visit website"
+    },
+    "headings": {
+      "details": "Details",
+      "customerReviews": "Customer reviews",
+      "aboutSupplier": "About the supplier"
+    },
+    "labels": {
+      "averageRating": "Average rating:",
+      "category": "Category:",
+      "supplier": "Supplier:",
+      "size": "Size:",
+      "colour": "Colour:",
+      "material": "Material:",
+      "sustainabilityRating": "Sustainability rating:",
+      "releaseDate": "Release date:",
+      "manufacturer": "Manufacturer:",
+      "outOfFive": "/ 5"
+    }
+  }
+}

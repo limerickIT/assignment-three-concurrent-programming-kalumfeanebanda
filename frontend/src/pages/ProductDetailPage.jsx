@@ -1,22 +1,22 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import "./ProductDetailPage.css";
 
 const API_BASE = "http://localhost:8080/api";
 
-
-
 function ProductDetailPage() {
     const { id } = useParams();
+    const { t } = useTranslation();
 
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [errorKey, setErrorKey] = useState(null);
     const [activeIndex, setActiveIndex] = useState(0);
 
     useEffect(() => {
         setLoading(true);
-        setError(null);
+        setErrorKey(null);
 
         fetch(`${API_BASE}/products/${id}/detail`)
             .then((res) => {
@@ -30,21 +30,25 @@ function ProductDetailPage() {
             })
             .catch((err) => {
                 console.error("Error loading product detail", err);
-                setError("Could not load product details.");
+                setErrorKey("productPage.status.error");
                 setLoading(false);
             });
     }, [id]);
 
     if (loading) {
-        return <div className="container mt-4">Loading product...</div>;
-    }
-
-    if (error) {
         return (
             <div className="container mt-4">
-                <p className="text-danger">{error}</p>
+                {t("productPage.status.loading")}
+            </div>
+        );
+    }
+
+    if (errorKey) {
+        return (
+            <div className="container mt-4">
+                <p className="text-danger">{t(errorKey)}</p>
                 <Link to="/" className="btn btn-link">
-                    &larr; Back to search
+                    {t("productPage.actions.backToSearch")}
                 </Link>
             </div>
         );
@@ -53,14 +57,13 @@ function ProductDetailPage() {
     if (!product) {
         return (
             <div className="container mt-4">
-                <p>Product not found.</p>
+                <p>{t("productPage.status.notFound")}</p>
                 <Link to="/" className="btn btn-link">
-                    &larr; Back to search
+                    {t("productPage.actions.backToSearch")}
                 </Link>
             </div>
         );
     }
-
 
     const images = [];
     const baseFolder = `/images/products/large/${product.productId}`;
@@ -95,11 +98,11 @@ function ProductDetailPage() {
     return (
         <div className="container mt-4 detail-page">
             <Link to="/" className="btn btn-link back-link">
-                &larr; Back to search
+                {t("productPage.actions.backToSearch")}
             </Link>
 
             <div className="detail-layout">
-
+                {/* LEFT: Image + carousel */}
                 <div>
                     <div className="detail-image-wrapper">
                         <img
@@ -138,15 +141,19 @@ function ProductDetailPage() {
                     )}
                 </div>
 
-
+                {/* RIGHT: Details */}
                 <div className="detail-info">
                     <h2>{product.productName}</h2>
 
                     {product.averageRating && (
                         <p className="text-muted mb-1">
-                            Average rating: <strong>{product.averageRating.toFixed
-                            ? product.averageRating.toFixed(1)
-                            : product.averageRating}</strong> / 5
+                            {t("productPage.labels.averageRating")}{" "}
+                            <strong>
+                                {product.averageRating.toFixed
+                                    ? product.averageRating.toFixed(1)
+                                    : product.averageRating}
+                            </strong>{" "}
+                            {t("productPage.labels.outOfFive")}
                         </p>
                     )}
 
@@ -159,60 +166,90 @@ function ProductDetailPage() {
                     <p className="text-muted mb-1">
                         {product.categoryName && (
                             <>
-                                Category: <strong>{product.categoryName}</strong>
+                                {t("productPage.labels.category")}{" "}
+                                <strong>{product.categoryName}</strong>
                             </>
                         )}
                     </p>
+
                     {product.supplierName && (
                         <p className="text-muted">
-                            Supplier: <strong>{product.supplierName}</strong>
+                            {t("productPage.labels.supplier")}{" "}
+                            <strong>{product.supplierName}</strong>
                         </p>
                     )}
 
                     <div className="price">
                         {product.discountedPrice ? (
                             <>
-                <span className="fs-4 fw-bold">
-                  ${product.discountedPrice}
-                </span>{" "}
+                                <span className="fs-4 fw-bold">
+                                    ${product.discountedPrice}
+                                </span>{" "}
                                 <span className="text-muted text-decoration-line-through">
-                  ${product.price}
-                </span>
+                                    ${product.price}
+                                </span>
                             </>
                         ) : (
-                            <span className="fs-4 fw-bold">${product.price}</span>
+                            <span className="fs-4 fw-bold">
+                                ${product.price}
+                            </span>
                         )}
                     </div>
 
                     <p className="description">{product.description}</p>
 
-                    <h5>Details</h5>
+                    <h5>{t("productPage.headings.details")}</h5>
                     <ul>
-                        {product.size && <li>Size: {product.size}</li>}
-                        {product.colour && <li>Colour: {product.colour}</li>}
-                        {product.material && <li>Material: {product.material}</li>}
-                        {product.sustainabilityRating && (
-                            <li>Sustainability rating: {product.sustainabilityRating} / 5</li>
+                        {product.size && (
+                            <li>
+                                {t("productPage.labels.size")} {product.size}
+                            </li>
                         )}
-                        {product.releaseDate && <li>Release date: {product.releaseDate}</li>}
+                        {product.colour && (
+                            <li>
+                                {t("productPage.labels.colour")} {product.colour}
+                            </li>
+                        )}
+                        {product.material && (
+                            <li>
+                                {t("productPage.labels.material")} {product.material}
+                            </li>
+                        )}
+                        {product.sustainabilityRating && (
+                            <li>
+                                {t("productPage.labels.sustainabilityRating")}{" "}
+                                {product.sustainabilityRating} {t("productPage.labels.outOfFive")}
+                            </li>
+                        )}
+                        {product.releaseDate && (
+                            <li>
+                                {t("productPage.labels.releaseDate")} {product.releaseDate}
+                            </li>
+                        )}
                         {product.manufacturer && (
-                            <li>Manufacturer: {product.manufacturer}</li>
+                            <li>
+                                {t("productPage.labels.manufacturer")}{" "}
+                                {product.manufacturer}
+                            </li>
                         )}
                     </ul>
 
-
                     {product.reviews && product.reviews.length > 0 && (
                         <>
-                            <h5 className="mt-4">Customer reviews</h5>
+                            <h5 className="mt-4">
+                                {t("productPage.headings.customerReviews")}
+                            </h5>
                             <div className="review-list">
                                 {product.reviews.map((r, index) => (
                                     <div key={index} className="review-card">
                                         <div className="review-header">
-                                            <span className="review-rating">{r.rating} / 5</span>
+                                            <span className="review-rating">
+                                                {r.rating} {t("productPage.labels.outOfFive")}
+                                            </span>
                                             <span className="review-author">
-              {r.customerFirstName}
+                                                {r.customerFirstName}
                                                 {r.customerCity ? ` — ${r.customerCity}` : ""}
-            </span>
+                                            </span>
                                         </div>
                                         <p className="review-comment">{r.comment}</p>
                                     </div>
@@ -221,11 +258,11 @@ function ProductDetailPage() {
                         </>
                     )}
 
-
-
                     {product.supplierWebsite && (
                         <>
-                            <h5 className="mt-4">About the supplier</h5>
+                            <h5 className="mt-4">
+                                {t("productPage.headings.aboutSupplier")}
+                            </h5>
                             <p>
                                 <strong>{product.supplierName}</strong>
                                 <br />
@@ -234,7 +271,7 @@ function ProductDetailPage() {
                                     target="_blank"
                                     rel="noreferrer"
                                 >
-                                    Visit website
+                                    {t("productPage.actions.visitWebsite")}
                                 </a>
                             </p>
                             {product.supplierDescription && (
