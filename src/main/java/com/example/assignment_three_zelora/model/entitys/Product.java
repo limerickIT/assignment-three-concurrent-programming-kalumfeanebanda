@@ -60,8 +60,8 @@ public class Product implements Serializable {
     
     @OneToMany(mappedBy = "productId")
     private List<Review> reviewList;
-   
-    @OneToMany(mappedBy = "productId")
+
+    @OneToMany(mappedBy = "product")
     private List<Wishlist> wishlistList;
    
     @OneToMany(mappedBy = "productId")

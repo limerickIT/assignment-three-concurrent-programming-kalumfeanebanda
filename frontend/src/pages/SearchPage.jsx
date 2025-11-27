@@ -67,7 +67,32 @@ function SearchPage() {
 
     return (
         <div style={{padding: "1.5rem", fontFamily: "sans-serif"}}>
+
+            <div
+                style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    marginBottom: "0.75rem",
+                }}
+            >
+
             <h1>{t("searchPage.title")}</h1>
+
+                <Link
+                    to="/wishlist"
+                    style={{
+                        padding: "0.4rem 0.8rem",
+                        borderRadius: "4px",
+                        border: "1px solid #333",
+                        textDecoration: "none",
+                        fontSize: "0.9rem",
+                    }}
+                >
+                    My Wishlist
+                </Link>
+            </div>
+
             <div style={{marginBottom: "1rem"}}>
                 <button onClick={() => i18n.changeLanguage("en-IE")}>EN</button>
                 <button onClick={() => i18n.changeLanguage("fr-FR")}>FR</button>

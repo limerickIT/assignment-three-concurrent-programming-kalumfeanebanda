@@ -53,19 +53,19 @@ public class Customer implements Serializable {
     @Column(name = "communication_preferences")
     private String communicationPreferences;
    
-    @Column(name = "dateJoined")
+    @Column(name = "date_Joined")
     @Temporal(TemporalType.DATE)
     private Date dateJoined;
    
     @Column(name = "city")
     private String city;
-   
+
     @OneToMany(mappedBy = "customerId")
     private List<Review> reviewList;
-   
-    @OneToMany(mappedBy = "customerId")
+
+    @OneToMany(mappedBy = "customer")
     private List<Wishlist> wishlistList;
-    
+
     @OneToMany(mappedBy = "customerId")
     private List<Orders> ordersList;
 
